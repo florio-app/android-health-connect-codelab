@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.StepsRecord
@@ -45,7 +46,8 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
     HealthPermission.getReadPermission(ExerciseSessionRecord::class),
     HealthPermission.getWritePermission(StepsRecord::class),
     HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class),
-    HealthPermission.getWritePermission(HeartRateRecord::class)
+    HealthPermission.getWritePermission(HeartRateRecord::class),
+    HealthPermission.getWritePermission(DistanceRecord::class)
   )
 
   var permissionsGranted = mutableStateOf(false)
@@ -67,6 +69,7 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
     }
   }
 
+  //insert exercice
   fun insertExerciseSession() {
     viewModelScope.launch {
       tryWithPermissionsCheck {
@@ -132,7 +135,7 @@ class ExerciseSessionViewModel(private val healthConnectManager: HealthConnectMa
 }
 
 class ExerciseSessionViewModelFactory(
-    private val healthConnectManager: HealthConnectManager,
+  private val healthConnectManager: HealthConnectManager,
 ) : ViewModelProvider.Factory {
   override fun <T : ViewModel> create(modelClass: Class<T>): T {
     if (modelClass.isAssignableFrom(ExerciseSessionViewModel::class.java)) {

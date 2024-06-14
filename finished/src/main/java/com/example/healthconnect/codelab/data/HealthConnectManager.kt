@@ -24,6 +24,7 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.HealthConnectClient.Companion.SDK_AVAILABLE
 import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.changes.Change
+import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.Record
@@ -36,6 +37,7 @@ import androidx.health.connect.client.request.ChangesTokenRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Energy
+import androidx.health.connect.client.units.Length
 import androidx.health.connect.client.units.Mass
 import java.io.IOException
 import java.time.Instant
@@ -167,6 +169,13 @@ class HealthConnectManager(private val context: Context) {
           endTime = end.toInstant(),
           endZoneOffset = end.offset,
           energy = Energy.calories((140 + Random.nextInt(20)) * 0.01)
+        ),
+        DistanceRecord(
+          startTime = start.toInstant(),
+          startZoneOffset = start.offset,
+          endTime = end.toInstant(),
+          endZoneOffset = end.offset,
+          distance = Length.meters(1000 * Random.nextDouble(5.0))
         )
       ) + buildHeartRateSeries(start, end)
     )
@@ -203,7 +212,7 @@ class HealthConnectManager(private val context: Context) {
    * TODO: Reads aggregated data and raw data for selected data types, for a given [ExerciseSessionRecord].
    */
   suspend fun readAssociatedSessionData(
-      uid: String,
+    uid: String,
   ): ExerciseSessionData {
     val exerciseSession = healthConnectClient.readRecord(ExerciseSessionRecord::class, uid)
     // Use the start time and end time from the session, for reading raw and aggregate data.
@@ -285,8 +294,8 @@ class HealthConnectManager(private val context: Context) {
    * Convenience function to reuse code for reading data.
    */
   private suspend inline fun <reified T : Record> readData(
-      timeRangeFilter: TimeRangeFilter,
-      dataOriginFilter: Set<DataOrigin> = setOf(),
+    timeRangeFilter: TimeRangeFilter,
+    dataOriginFilter: Set<DataOrigin> = setOf(),
   ): List<T> {
     val request = ReadRecordsRequest(
       recordType = T::class,
