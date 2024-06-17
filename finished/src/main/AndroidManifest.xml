@@ -16,6 +16,8 @@
   <!-- TODO: Required to specify which Health Connect permissions the app can request -->
   <uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
   <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
+  <uses-permission android:name="android.permission.health.READ_RESTING_HEART_RATE"/>
+  <uses-permission android:name="android.permission.health.WRITE_RESTING_HEART_RATE"/>
   <uses-permission android:name="android.permission.health.READ_STEPS"/>
   <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
   <uses-permission android:name="android.permission.health.READ_EXERCISE"/>

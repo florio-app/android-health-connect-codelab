@@ -75,8 +75,8 @@ fun HealthConnectNavigation(
     composable(Screen.ExerciseSessions.route) {
       val viewModel: ExerciseSessionViewModel = viewModel(
         factory = ExerciseSessionViewModelFactory(
-          healthConnectManager = healthConnectManager
-        )
+          healthConnectManager = healthConnectManager,
+       )
       )
       val permissionsGranted by viewModel.permissionsGranted
       val sessionsList by viewModel.sessionsList
@@ -93,6 +93,9 @@ fun HealthConnectNavigation(
         uiState = viewModel.uiState,
         onInsertClick = {
           viewModel.insertExerciseSession()
+        },
+        onInsertHeartRateClick = {
+          viewModel.insertHeartRate()
         },
         onDetailsClick = { uid ->
           navController.navigate(Screen.ExerciseSessionDetail.route + "/" + uid)

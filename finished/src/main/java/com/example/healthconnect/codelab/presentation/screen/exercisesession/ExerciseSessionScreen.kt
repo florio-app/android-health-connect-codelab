@@ -51,6 +51,7 @@ fun ExerciseSessionScreen(
   sessionsList: List<ExerciseSessionRecord>,
   uiState: ExerciseSessionViewModel.UiState,
   onInsertClick: () -> Unit = {},
+  onInsertHeartRateClick: () -> Unit = {},
   onDetailsClick: (String) -> Unit = {},
   onError: (Throwable?) -> Unit = {},
   onPermissionsResult: () -> Unit = {},
@@ -107,6 +108,20 @@ fun ExerciseSessionScreen(
             Text(stringResource(id = R.string.insert_exercise_session))
           }
         }
+        item {
+          Button(
+            modifier = Modifier
+              .fillMaxWidth()
+              .height(48.dp)
+              .padding(4.dp),
+            onClick = {
+              onInsertHeartRateClick()
+            }
+          ) {
+            Text(stringResource(id = R.string.insert_resting_heart_rate))
+          }
+        }
+
 
         items(sessionsList) { session ->
           ExerciseSessionRow(
